@@ -1,0 +1,64 @@
+<mat-sidenav-container class="container">
+  <mat-sidenav mode="side" opened>
+    <mat-card>
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>home</mat-icon>
+          </ng-template>
+          <mat-list class="conversations">
+            <mat-list-item *ngFor="let room of rooms" (click)="selectRoom(room.id)">
+              <p>{{ room.name }}</p>
+            </mat-list-item>
+          </mat-list>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+  </mat-sidenav>
+  <mat-sidenav position="end" mode="side" opened *ngIf="!selectedConversation">
+    <mat-card>
+      <mat-list class="members">
+        <mat-list-item *ngFor="let member of selectedRoom.users">
+          <!-- <p> <img [src]="imageToShow(member.avatar)" alt="" /> -->
+          <p>
+            {{ member.name }}
+          </p>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </mat-sidenav>
+  <mat-sidenav-content class="conversation-wrapper">
+    <section class="empty-conversation" *ngIf="!selectedRoom">
+      <h1 class="mat-display-1">Select a conversation from the left to start chatting</h1>
+    </section>
+    <section *ngIf="selectedRoom" class="conversation">
+      <div class="mat-typography conversation-header">
+        <h2>
+          {{ selectedRoom.name }}
+        </h2>
+        <p>
+          {{(selectedRoom.users).length}} Members
+        </p>
+      </div>
+
+      <mat-divider></mat-divider>
+      <mat-list #scroller dense class="conversation-history mat-typography">
+        <mat-list-item *ngFor="let message of selectedRoom.messages">
+          <b>({{message.sender}}):</b> <i>{{message.content}}</i>
+        </mat-list-item>
+      </mat-list>
+
+      <div class="conversation-input">
+        <mat-divider></mat-divider>
+        <form (ngSubmit)="send()">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Start chatting..." name="text" [(ngModel)]="messageContent">
+          </mat-form-field>
+          <button mat-button (click)="send()">
+            <mat-icon aria-hidden="false">send</mat-icon>
+          </button>
+        </form>
+      </div>
+    </section>
+  </mat-sidenav-content>
+</mat-sidenav-container>

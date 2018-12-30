@@ -1,0 +1,26 @@
+<mat-card class="mat-typography login">
+  <h1>Login</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <mat-form-field class="full-width">
+      <mat-error *ngIf="loginForm.controls.login.hasError('required')">
+        Login is <strong>required</strong>
+      </mat-error>
+      <input matInput placeholder="login" formControlName="login">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-error *ngIf="loginForm.controls.password.hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+      <input matInput type="password" placeholder="password" formControlName="password">
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="primary" (click)="showSpinner = !showSpinner">Login
+      <mat-spinner color="accent" mode="indeterminate" *ngIf="showSpinner"></mat-spinner>
+    </button>
+  </form>
+  <div style="margin-top: 15px;">
+    Don't have an account?
+    <button mat-raised-button color="warn" (click)="register()">
+      <fa-icon [icon]="['fas', 'sign-in-alt']"></fa-icon> Register
+    </button>
+  </div>
+</mat-card>

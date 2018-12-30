@@ -1,0 +1,25 @@
+.form-control {
+  min-width: 250px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.login {
+  text-align: center;
+}
+
+.mat-spinner {
+  width: 20px !important;
+  height: 20px !important;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.mat-spinner svg {
+  width: 20px !important;
+  height: 20px !important;
+}

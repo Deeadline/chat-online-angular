@@ -1,0 +1,29 @@
+<div class="wrapper">
+  <header>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <a mat-button class="mat-button" routerLink="chat" routerLinkActive="mat-accent">
+          <mat-icon>home</mat-icon>
+          <span fxShow fxHide.xs> Chat</span>
+        </a>
+        <span style="flex: 1 1 auto;"></span>
+        <button mat-button [matMenuTriggerFor]="profileMenu">{{ currentUser.name }}</button>
+        <mat-menu #profileMenu="matMenu">
+          <button mat-menu-item (click)="profile()">Profile</button>
+          <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </header>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+  <footer>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <!-- &copy; Mikołaj Szymański -->
+        Dupa cycki
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </footer>
+</div>

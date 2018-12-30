@@ -1,0 +1,39 @@
+<mat-card class="mat-typography login">
+  <h1>Register</h1>
+  <form [formGroup]="registerForm" (submit)="register()" class="form-control">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="login" formControlName="login">
+      <mat-error *ngIf="registerForm.controls.login.hasError('required')">
+        Login is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="registerForm.controls.login.hasError('minlength')"><strong>Login must have more than 6
+          letters</strong></mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="full-width">
+      <input matInput type="password" placeholder="password" formControlName="password">
+      <mat-error *ngIf="registerForm.controls.password.hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="registerForm.controls.password.hasError('minlength')">
+        <strong>Password must have more than 6
+          letters!</strong>
+      </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="full-width" style="padding-bottom: 15px;">
+      <input matInput type="password" placeholder="confirm password" formControlName="confirmPassword">
+      <mat-error *ngIf="registerForm.controls.confirmPassword.hasError('required')">
+        Confirm password is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="registerForm.controls.confirmPassword.hasError('matchpassword')">
+        Confirm password is <strong>not same</strong>
+      </mat-error>
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="primary" (click)="showSpinner = !showSpinner">Register
+      <mat-spinner color="accent" mode="indeterminate" *ngIf="showSpinner"></mat-spinner>
+    </button>
+  </form>
+</mat-card>
