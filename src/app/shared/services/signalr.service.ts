@@ -28,15 +28,6 @@ export class SignalrService {
       .catch(err => console.log(`Error while starting connection: ${err}`));
   }
 
-  // za każdym razem kiedy wejdzie nowy uzytkownik do pokoju
-  public getUsersListener = (): Observable<User> => {
-    return new Observable<User>(observer => {
-      this.hubConnection.on('BroadcastUsers', (data: User) =>
-        observer.next(data)
-      );
-    });
-  }
-
   // za kazdym razem kiedy ktos wysle wiadomosc
   public getMessageListener = (): Observable<Message> => {
     return new Observable<Message>(observer => {
@@ -46,16 +37,21 @@ export class SignalrService {
     });
   }
 
-  // za kazdym razem gdy stworzy sie nowy pokoj
   public getRoomListener = (): Observable<Room> => {
     return new Observable<Room>(observer => {
-      this.hubConnection.on('BroadcastRoom', (data: Room) =>
-        observer.next(data)
-      );
+      this.hubConnection.on('Reload', (data: Room) => observer.next(data));
     });
   }
 
   public sendMessage = (message: Message): void => {
     this.hubConnection.invoke('SendMessage', message);
+  }
+
+  public changeRoom = (roomName: string, id: number): void => {
+    this.hubConnection.invoke('ChangeRoom', roomName, id);
+  }
+
+  public enterRoom = (roomName: string, id: number): void => {
+    this.hubConnection.invoke('EnterRoom', roomName, id);
   }
 }

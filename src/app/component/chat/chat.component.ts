@@ -11,7 +11,6 @@ import { SignalrService } from 'src/app/shared/services/signalr.service';
 import { Message } from 'src/app/model/message.model';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { Room } from 'src/app/model/room.model';
-import { ImageService } from 'src/app/shared/services/image.service';
 
 @Component({
   selector: 'app-chat',
@@ -21,45 +20,22 @@ import { ImageService } from 'src/app/shared/services/image.service';
 export class ChatComponent implements OnInit, AfterViewChecked, AfterViewInit {
   @ViewChild('scroller', { read: ElementRef }) private scroller: ElementRef;
 
-  // mock data
-  selectedRoom: Room = new Room().deserialize({
-    id: 1,
-    name: 'FFA',
-    users: [
-      new User().deserialize({ id: 1, name: 'Romek', avatar: 'test' }),
-      new User().deserialize({ id: 2, name: 'Romek1', avatar: 'test1' }),
-      new User().deserialize({ id: 3, name: 'Romek2', avatar: 'test2' })
-    ],
-    messages: [
-      new Message().deserialize({ sender: 'Romek', content: 'Test1' }),
-      new Message().deserialize({ sender: 'Romek1', content: 'Test12' }),
-      new Message().deserialize({ sender: 'Romek2', content: 'Test2' }),
-      new Message().deserialize({ sender: 'Romek', content: 'Test3' }),
-      new Message().deserialize({ sender: 'Romek2', content: 'Test4' }),
-      new Message().deserialize({ sender: 'Romek1', content: 'Test123' }),
-      new Message().deserialize({ sender: 'Romek1', content: 'Test123' }),
-      new Message().deserialize({ sender: 'Romek1', content: 'Test123' }),
-      new Message().deserialize({ sender: 'Romek1', content: 'Test123' }),
-      new Message().deserialize({ sender: 'Romek1', content: 'Test123' })
-    ]
-  });
-  rooms: Room[] = [
-    new Room().deserialize({ id: 1, name: 'FFA' }),
-    new Room().deserialize({ id: 2, name: 'FFA2' }),
-    new Room().deserialize({ id: 3, name: 'FFA3' })
-  ];
-
-  user: User;
-  messageContent: string;
-  messageListener: any;
-  roomListener: any;
+  selectedRoom: Room = new Room(); // aktualnie wybrany pokoj
+  user: User; // current user
+  rooms: Room[]; // spis pokoi
+  messageContent: string; // do wysylki
+  messageListener: any; // do pobierania
+  roomListener: any; // do pobierania
+  isSelected = false; // do wyswietlania
 
   constructor(
     private signalRService: SignalrService,
-    private service: HttpService,
-    private imageService: ImageService
+    private service: HttpService
   ) {
     this.user = this.service.getUser();
+    this.service.getRooms().then(response => {
+      this.rooms = response;
+    });
   }
 
   ngOnInit() {
@@ -86,8 +62,9 @@ export class ChatComponent implements OnInit, AfterViewChecked, AfterViewInit {
     this.roomListener = this.signalRService
       .getRoomListener()
       .subscribe((room: Room) => {
-        this.rooms.push(room);
+        console.log(room);
       });
+
     this.messageListener = this.signalRService
       .getMessageListener()
       .subscribe((message: Message) => {
@@ -95,10 +72,12 @@ export class ChatComponent implements OnInit, AfterViewChecked, AfterViewInit {
       });
   }
 
-  selectRoom = (roomId: number) => {
-    this.service.getRoom(roomId).then(room => {
-      this.selectedRoom = room;
-    });
+  enterRoom = (roomName: string, userId: number) => {
+    if (!this.isSelected) {
+      this.signalRService.enterRoom(roomName, userId);
+      this.isSelected = true;
+    }
+    this.signalRService.changeRoom(roomName, userId);
   }
 
   send = (): void => {
@@ -107,7 +86,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, AfterViewInit {
     }
     this.signalRService.sendMessage(
       new Message().deserialize({
-        sender: this.user.name,
+        sender: this.user,
         content: this.messageContent
       })
     );

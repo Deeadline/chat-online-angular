@@ -9,7 +9,11 @@ export class User implements Deserializable {
   confirmPassword?: string;
 
   deserialize(input: any) {
-    Object.assign(this, input);
+    this.id = input.Id;
+    this.login = input.Login;
+    this.password = input.Password;
+    this.avatar = input.FileName;
+    this.name = input.Name;
     return this;
   }
 }
