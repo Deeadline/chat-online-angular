@@ -33,6 +33,8 @@ export class LoginComponent implements OnInit {
       this.service.login(this.loginForm.value).subscribe(response => {
         if (response.token) {
           this.router.navigate(['/app/chat']);
+        } else {
+          alert(response.message);
         }
       });
     } else {

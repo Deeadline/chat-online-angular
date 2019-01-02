@@ -25,10 +25,12 @@ export class RequestInterceptor implements HttpInterceptor {
       });
     }
 
-    if (!req.headers.has('Content-Type')) {
-      req = req.clone({
-        headers: req.headers.set('Content-Type', 'application/json')
-      });
+    if (req.url.indexOf('user/upload') === -1) {
+      if (!req.headers.has('Content-Type')) {
+        req = req.clone({
+          headers: req.headers.set('Content-Type', 'application/json')
+        });
+      }
     }
 
     req = req.clone({ headers: req.headers.set('Accept', 'application/json') });

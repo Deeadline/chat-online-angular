@@ -4,11 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, tap } from 'rxjs/internal/operators';
 import { User } from 'src/app/model/user.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Room } from 'src/app/model/room.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json'
+    'Content-Type': 'multipart/form-data'
   })
 };
 
@@ -25,7 +24,7 @@ export class HttpService {
 
   // sekcja logowania i rejestracji
   register = (user: User): Observable<User> => {
-    return this.http.post<User>(`api/user/register`, user, httpOptions).pipe(
+    return this.http.post<User>(`api/user/register`, user).pipe(
       map(response => {
         return response;
       })
@@ -33,7 +32,7 @@ export class HttpService {
   }
 
   login = (user: User): Observable<any> => {
-    return this.http.post<any>(`api/user/login`, user, httpOptions).pipe(
+    return this.http.post<any>(`api/user/login`, user).pipe(
       tap(response => {
         if (response.token) {
           this.setToken(response.token);
@@ -44,7 +43,7 @@ export class HttpService {
   }
 
   logout = (): void => {
-    this.http.get(`api/user/logout?id=${this.getUser().id}`, httpOptions);
+    this.http.get(`api/user/logout?id=${this.getUser().id}`);
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.currentUserKey);
   }
@@ -78,7 +77,22 @@ export class HttpService {
 
   // Sekcja do pobierania danych z pokoju (aktualni uzytkownicy, stare wiadomosci) - to i tak moze stad zniknąć :D
 
-  getRoom = (roomId: number): Promise<any> => {
-    return this.http.get(`api/room/${roomId}`, httpOptions).toPromise();
+  getRooms = (): Promise<any> => {
+    return this.http.get(`api/user/room`, httpOptions).toPromise();
+  }
+
+  upload = (file: File): Observable<any> => {
+    if (!file) {
+      return;
+    }
+
+    const user = this.getUser();
+    const input = new FormData();
+    input.append(file.name, file);
+    return this.http.post<any>(`api/user/upload?userId=${user.id}`, input).pipe(
+      tap(response => {
+        console.log(response);
+      })
+    );
   }
 }

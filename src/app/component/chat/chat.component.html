@@ -7,7 +7,7 @@
             <mat-icon>home</mat-icon>
           </ng-template>
           <mat-list class="conversations">
-            <mat-list-item *ngFor="let room of rooms" (click)="selectRoom(room.id)">
+            <mat-list-item *ngFor="let room of rooms" (click)="enterRoom(room.name, user.id)">
               <p>{{ room.name }}</p>
             </mat-list-item>
           </mat-list>
@@ -15,36 +15,33 @@
       </mat-tab-group>
     </mat-card>
   </mat-sidenav>
-  <mat-sidenav position="end" mode="side" opened *ngIf="!selectedConversation">
+  <mat-sidenav position="end" mode="side" opened *ngIf="isSelected">
     <mat-card>
       <mat-list class="members">
         <mat-list-item *ngFor="let member of selectedRoom.users">
-          <!-- <p> <img [src]="imageToShow(member.avatar)" alt="" /> -->
-          <p>
-            {{ member.name }}
-          </p>
+          <div><img [src]="member.avatar" alt="">
+            <p>{{ member.name }}</p>
+          </div>
         </mat-list-item>
       </mat-list>
     </mat-card>
   </mat-sidenav>
   <mat-sidenav-content class="conversation-wrapper">
-    <section class="empty-conversation" *ngIf="!selectedRoom">
-      <h1 class="mat-display-1">Select a conversation from the left to start chatting</h1>
+    <section class="empty-conversation" *ngIf="!isSelected">
+      <h1 class="mat-display-1">
+        Select a conversation from the left to start chatting
+      </h1>
     </section>
-    <section *ngIf="selectedRoom" class="conversation">
+    <section *ngIf="isSelected" class="conversation">
       <div class="mat-typography conversation-header">
-        <h2>
-          {{ selectedRoom.name }}
-        </h2>
-        <p>
-          {{(selectedRoom.users).length}} Members
-        </p>
+        <h2>{{ selectedRoom.name }}</h2>
+        <p>{{ selectedRoom.users.length }} Members</p>
       </div>
 
       <mat-divider></mat-divider>
       <mat-list #scroller dense class="conversation-history mat-typography">
         <mat-list-item *ngFor="let message of selectedRoom.messages">
-          <b>({{message.sender}}):</b> <i>{{message.content}}</i>
+          <b>({{ message.sender }}):</b> <i>{{ message.content }}</i>
         </mat-list-item>
       </mat-list>
 
@@ -52,7 +49,7 @@
         <mat-divider></mat-divider>
         <form (ngSubmit)="send()">
           <mat-form-field class="full-width">
-            <input matInput placeholder="Start chatting..." name="text" [(ngModel)]="messageContent">
+            <input matInput placeholder="Start chatting..." name="text" [(ngModel)]="messageContent" />
           </mat-form-field>
           <button mat-button (click)="send()">
             <mat-icon aria-hidden="false">send</mat-icon>
