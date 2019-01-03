@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from 'src/app/shared/services/http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -7,7 +8,7 @@ import { HttpService } from 'src/app/shared/services/http.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  constructor(public service: HttpService) {}
+  constructor(public service: HttpService, private router: Router) {}
 
   ngOnInit() {}
 
@@ -15,7 +16,7 @@ export class UserComponent implements OnInit {
     const file = input.files[0];
     if (file) {
       this.service.upload(file).subscribe(response => {
-        console.log(response);
+        this.router.navigate(['/app/chat/']);
       });
     }
   }

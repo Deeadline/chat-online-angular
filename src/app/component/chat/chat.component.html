@@ -19,8 +19,8 @@
     <mat-card>
       <mat-list class="members">
         <mat-list-item *ngFor="let member of selectedRoom.users">
-          <div><img [src]="member.avatar" alt="">
-            <p>{{ member.name }}</p>
+          <div><img matListAvatar *ngIf="member.fileName!==null" [src]="getPhoto(member.fileName)" alt="" />
+            <p matLine>{{ member.name }}</p>
           </div>
         </mat-list-item>
       </mat-list>

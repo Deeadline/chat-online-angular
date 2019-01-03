@@ -3,6 +3,10 @@ import { Message } from './message.model';
 import { Deserializable } from './deserializable.model';
 
 export class Room implements Deserializable {
+  constructor() {
+    this.users = [];
+    this.messages = [];
+  }
   id?: number;
   name?: string;
   users: User[];

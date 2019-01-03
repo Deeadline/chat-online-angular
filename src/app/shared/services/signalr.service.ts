@@ -37,9 +37,15 @@ export class SignalrService {
     });
   }
 
+  public getRoomsListener = (): Observable<any> => {
+    return new Observable<any>(observer => {
+      this.hubConnection.on('ReceiveRooms', (data: any) => observer.next(data));
+    });
+  }
+
   public getRoomListener = (): Observable<Room> => {
     return new Observable<Room>(observer => {
-      this.hubConnection.on('Reload', (data: Room) => observer.next(data));
+      this.hubConnection.on('ReceiveRoom', (data: Room) => observer.next(data));
     });
   }
 
@@ -53,5 +59,9 @@ export class SignalrService {
 
   public enterRoom = (roomName: string, id: number): void => {
     this.hubConnection.invoke('EnterRoom', roomName, id);
+  }
+
+  public leaveRoom = (id: number) => {
+    this.hubConnection.invoke('LeaveRoom', id);
   }
 }

@@ -62,12 +62,9 @@
   overflow: hidden;
 }
 
-section .mat-list .mat-list-avatar {
+.mat-list-avatar {
   width: 25px;
   height: 25px;
-}
-
-.mat-list-avatar {
   margin: 0 5px;
 }
 
