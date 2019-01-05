@@ -12,7 +12,6 @@ import { SignalrService } from 'src/app/shared/services/signalr.service';
 import { Message } from 'src/app/model/message.model';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { Room } from 'src/app/model/room.model';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-chat',
@@ -34,8 +33,7 @@ export class ChatComponent
 
   constructor(
     private signalRService: SignalrService,
-    private service: HttpService,
-    private sainitizer: DomSanitizer
+    private service: HttpService
   ) {}
 
   ngOnInit() {
@@ -43,7 +41,6 @@ export class ChatComponent
   }
 
   ngOnDestroy(): void {
-    console.log('Hello world');
     this.signalRService.leaveRoom(this.user.id);
   }
 
@@ -69,8 +66,7 @@ export class ChatComponent
     this.roomsListener = this.signalRService
       .getRoomsListener()
       .subscribe((response: any) => {
-        response.forEach(element => {
-          const { item1, item2 } = element;
+        response.forEach(({ item1, item2 }) => {
           this.rooms.push(new Room().deserialize({ id: item1, name: item2 }));
         });
       });
@@ -84,34 +80,28 @@ export class ChatComponent
     this.roomListener = this.signalRService
       .getRoomListener()
       .subscribe((room: Room) => {
-        console.log(room);
         this.selectedRoom = room;
       });
   }
 
-  enterRoom = (roomName: string, userId: number) => {
+  onSelect = ({ name, id }) => {
     if (!this.isSelected) {
-      this.signalRService.enterRoom(roomName, userId);
+      this.signalRService.enterRoom(name, id);
       this.isSelected = true;
     } else {
-      this.signalRService.changeRoom(roomName, userId);
+      this.signalRService.changeRoom(name, id);
     }
   }
 
-  send = (): void => {
-    if (!this.messageContent) {
+  onSend = (message: string): void => {
+    if (!message) {
       return;
     }
     this.signalRService.sendMessage(
       new Message().deserialize({
         sender: this.user.name,
-        content: this.messageContent
+        content: message
       })
     );
-    this.messageContent = null;
-  }
-
-  getPhoto = (photo: string) => {
-    return this.sainitizer.bypassSecurityTrustResourceUrl(photo);
   }
 }

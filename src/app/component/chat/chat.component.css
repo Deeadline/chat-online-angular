@@ -23,61 +23,13 @@
   height: 100%;
 }
 
-.conversation-header {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.conversation-history {
-  flex: 1;
-}
-
-.conversation-history.mat-list {
-  max-height: 650px;
-  width: 100%;
-  overflow: hidden auto;
-  padding-right: 15px;
-  padding-bottom: 10px;
-}
-
-.conversation-history.mat-list p {
-  margin: 0;
-}
-
-.conversations .mat-list-item {
-  cursor: pointer;
-}
-
 .mat-card {
   height: 100%;
   padding: 0 24px;
 }
 
-.conversation-input {
-  padding-left: 15px;
-  padding-right: 15px;
-  width: 100%;
-  background-color: #fafafa;
-  overflow: hidden;
-}
-
-.mat-list-avatar {
-  width: 25px;
-  height: 25px;
-  margin: 0 5px;
-}
-
 .right {
   text-align: right;
-}
-
-.full-width {
-  width: calc(100% - 90px);
-}
-
-.full-width .mat-icon {
-  cursor: pointer;
 }
 
 .text-center {

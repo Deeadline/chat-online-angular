@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>home</mat-icon>
+      </ng-template>
+      <mat-list class="conversations">
+        <mat-list-item *ngFor="let room of rooms" (click)="enterRoom(room.name, id)">
+          <p>{{ room.name }}</p>
+        </mat-list-item>
+      </mat-list>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

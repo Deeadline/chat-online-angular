@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, tap } from 'rxjs/internal/operators';
+import { map, tap, take } from 'rxjs/internal/operators';
 import { User } from 'src/app/model/user.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -75,12 +75,6 @@ export class HttpService {
     return !this.jwtHelper.isTokenExpired(this.getToken());
   }
 
-  // Sekcja do pobierania danych z pokoju (aktualni uzytkownicy, stare wiadomosci) - to i tak moze stad zniknąć :D
-
-  getRooms = (): Promise<any> => {
-    return this.http.get(`api/user/room`, httpOptions).toPromise();
-  }
-
   upload = (file: File): Observable<any> => {
     if (!file) {
       return;
@@ -94,5 +88,10 @@ export class HttpService {
         console.log(response);
       })
     );
+  }
+
+  download = (name: string): Observable<any> => {
+    return this.http
+      .get<any>(`api/user/download?photoName=${name}`);
   }
 }

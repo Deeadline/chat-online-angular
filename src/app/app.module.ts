@@ -19,6 +19,11 @@ import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { SignalrService } from './shared/services/signalr.service';
 import { HttpService } from './shared/services/http.service';
+import { RoomListComponent } from './component/chat/room-list/room-list.component';
+import { UserListComponent } from './component/chat/user-list/user-list.component';
+import { InputComponent } from './component/chat/input/input.component';
+import { MessageContainerComponent } from './component/chat/message-container/message-container.component';
+import { UserImageComponent } from './component/chat/user-list/user-image/user-image.component';
 
 export function tokenGetter() {
   return localStorage.getItem('auth-token');
@@ -32,7 +37,12 @@ export function tokenGetter() {
     UserComponent,
     RegisterComponent,
     LoginComponent,
-    ChatComponent
+    ChatComponent,
+    RoomListComponent,
+    UserListComponent,
+    InputComponent,
+    MessageContainerComponent,
+    UserImageComponent
   ],
   imports: [
     BrowserModule,

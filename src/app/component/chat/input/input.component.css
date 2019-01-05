@@ -1,0 +1,15 @@
+.full-width {
+  width: calc(100% - 90px);
+}
+
+.full-width .mat-icon {
+  cursor: pointer;
+}
+
+.conversation-input {
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+  background-color: #fafafa;
+  overflow: hidden;
+}
