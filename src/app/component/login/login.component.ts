@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpService } from 'src/app/shared/services/http.service';
-import { tap } from 'rxjs/operators';
+import { HttpService } from 'src/app/shared/services/http/http.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
@@ -33,8 +32,6 @@ export class LoginComponent implements OnInit {
       this.service.login(this.loginForm.value).subscribe(response => {
         if (response.token) {
           this.router.navigate(['/app/chat']);
-        } else {
-          alert(response.message);
         }
       });
     } else {

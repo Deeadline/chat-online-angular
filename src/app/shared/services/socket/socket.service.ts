@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import * as signalR from '@aspnet/signalr';
-import { User } from 'src/app/model/user.model';
-import { Room } from 'src/app/model/room.model';
 import { Message } from 'src/app/model/message.model';
+import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+import { Room } from 'src/app/model/room.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SignalrService {
+export class SocketService {
   private hubConnection: signalR.HubConnection;
   constructor() {}
 

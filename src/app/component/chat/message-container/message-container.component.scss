@@ -1,0 +1,38 @@
+.conversation-header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.conversation-history {
+  flex: 1;
+  max-height: 650px;
+  width: 100%;
+  overflow: hidden auto;
+}
+
+mat-list-item {
+  display: inline-block;
+  padding: 10px 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 25px;
+}
+
+.message-content {
+
+  .sender {
+    font-weight: 600;
+    font-size: 16px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+  }
+
+  .time {
+    font-size: 8px;
+  }
+
+  .content {
+    font-size: 16px;
+  }
+}

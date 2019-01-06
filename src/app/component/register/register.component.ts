@@ -6,7 +6,7 @@ import {
   AbstractControl
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpService } from 'src/app/shared/services/http.service';
+import { HttpService } from 'src/app/shared/services/http/http.service';
 
 export const validator = (controls: AbstractControl) => {
   const password = controls.get('password').value;
@@ -21,7 +21,7 @@ export const validator = (controls: AbstractControl) => {
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
   public registerForm: FormGroup;

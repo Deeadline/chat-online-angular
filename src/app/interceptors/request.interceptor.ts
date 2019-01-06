@@ -4,7 +4,7 @@ import {
   HttpRequest,
   HttpEvent
 } from '@angular/common/http';
-import { HttpService } from '../shared/services/http.service';
+import { HttpService } from '../shared/services/http/http.service';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { Injectable } from '@angular/core';

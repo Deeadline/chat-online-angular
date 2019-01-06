@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpService } from 'src/app/shared/services/http.service';
+import { Component, OnInit } from '@angular/core';
+import { HttpService } from 'src/app/shared/services/http/http.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
   constructor(public service: HttpService, private router: Router) {}

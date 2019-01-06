@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, tap, take } from 'rxjs/internal/operators';
-import { User } from 'src/app/model/user.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'multipart/form-data'
-  })
-};
+import { User } from 'src/app/model/user.model';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -91,7 +85,6 @@ export class HttpService {
   }
 
   download = (name: string): Observable<any> => {
-    return this.http
-      .get<any>(`api/user/download?photoName=${name}`);
+    return this.http.get<any>(`api/user/download?photoName=${name}`);
   }
 }

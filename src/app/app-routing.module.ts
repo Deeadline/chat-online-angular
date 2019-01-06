@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
 import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
-import { AuthGuardService } from './shared/services/auth-guard.service';
+import { AuthguardService } from './shared/services/authguard/authguard.service';
 import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { ChatComponent } from './component/chat/chat.component';
@@ -27,7 +27,7 @@ const routes: Routes = [
   {
     path: 'app',
     component: AppLayoutComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthguardService],
     children: [
       { path: 'chat', component: ChatComponent },
       { path: 'user/:id/edit', component: UserComponent }

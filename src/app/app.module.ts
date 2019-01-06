@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
@@ -17,13 +17,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RequestInterceptor } from './interceptors/request.interceptor';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { ToastrModule } from 'ngx-toastr';
-import { SignalrService } from './shared/services/signalr.service';
-import { HttpService } from './shared/services/http.service';
+import { SocketService } from './shared/services/socket/socket.service';
+import { HttpService } from './shared/services/http/http.service';
 import { RoomListComponent } from './component/chat/room-list/room-list.component';
 import { UserListComponent } from './component/chat/user-list/user-list.component';
 import { InputComponent } from './component/chat/input/input.component';
 import { MessageContainerComponent } from './component/chat/message-container/message-container.component';
 import { UserImageComponent } from './component/chat/user-list/user-image/user-image.component';
+import { DatePipe } from '@angular/common';
 
 export function tokenGetter() {
   return localStorage.getItem('auth-token');
@@ -64,8 +65,9 @@ export function tokenGetter() {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
-    SignalrService,
-    HttpService
+    SocketService,
+    HttpService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

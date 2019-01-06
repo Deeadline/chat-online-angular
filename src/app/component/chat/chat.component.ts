@@ -8,15 +8,15 @@ import {
   OnDestroy
 } from '@angular/core';
 import { User } from 'src/app/model/user.model';
-import { SignalrService } from 'src/app/shared/services/signalr.service';
+import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { Message } from 'src/app/model/message.model';
-import { HttpService } from 'src/app/shared/services/http.service';
+import { HttpService } from 'src/app/shared/services/http/http.service';
 import { Room } from 'src/app/model/room.model';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent
   implements OnInit, AfterViewChecked, AfterViewInit, OnDestroy {
@@ -31,17 +31,14 @@ export class ChatComponent
   roomListener: any; // do pobierania aktualnego pokoju
   isSelected = false; // do wyswietlania
 
-  constructor(
-    private signalRService: SignalrService,
-    private service: HttpService
-  ) {}
+  constructor(private socket: SocketService, private service: HttpService) {}
 
   ngOnInit() {
     this.initConnection();
   }
 
   ngOnDestroy(): void {
-    this.signalRService.leaveRoom(this.user.id);
+    this.socket.leaveRoom(this.user.id);
   }
 
   ngAfterViewInit(): void {
@@ -61,9 +58,9 @@ export class ChatComponent
   initConnection = (): void => {
     this.user = this.service.getUser();
 
-    this.signalRService.startConnection();
+    this.socket.startConnection();
 
-    this.roomsListener = this.signalRService
+    this.roomsListener = this.socket
       .getRoomsListener()
       .subscribe((response: any) => {
         response.forEach(({ item1, item2 }) => {
@@ -71,13 +68,13 @@ export class ChatComponent
         });
       });
 
-    this.messageListener = this.signalRService
+    this.messageListener = this.socket
       .getMessageListener()
       .subscribe((message: Message) => {
         this.selectedRoom.messages.push(message);
       });
 
-    this.roomListener = this.signalRService
+    this.roomListener = this.socket
       .getRoomListener()
       .subscribe((room: Room) => {
         this.selectedRoom = room;
@@ -86,10 +83,10 @@ export class ChatComponent
 
   onSelect = ({ name, id }) => {
     if (!this.isSelected) {
-      this.signalRService.enterRoom(name, id);
+      this.socket.enterRoom(name, id);
       this.isSelected = true;
     } else {
-      this.signalRService.changeRoom(name, id);
+      this.socket.changeRoom(name, id);
     }
   }
 
@@ -97,7 +94,7 @@ export class ChatComponent
     if (!message) {
       return;
     }
-    this.signalRService.sendMessage(
+    this.socket.sendMessage(
       new Message().deserialize({
         sender: this.user.name,
         content: message

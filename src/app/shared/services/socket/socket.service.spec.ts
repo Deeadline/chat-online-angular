@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SignalrService } from './signalr.service';
+import { SocketService } from './socket.service';
 
-describe('SignalrService', () => {
+describe('SocketService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SignalrService = TestBed.get(SignalrService);
+    const service: SocketService = TestBed.get(SocketService);
     expect(service).toBeTruthy();
   });
 });

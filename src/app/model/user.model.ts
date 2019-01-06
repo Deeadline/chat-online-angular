@@ -1,11 +1,9 @@
 import { Deserializable } from './deserializable.model';
-import { SafeResourceUrl } from '@angular/platform-browser';
 
 export class User implements Deserializable {
   id?: number;
   name?: string;
   fileName?: string;
-  photo?: SafeResourceUrl;
   login?: string;
   password?: string;
   confirmPassword?: string;
